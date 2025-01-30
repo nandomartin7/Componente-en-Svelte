@@ -1,107 +1,112 @@
-# This repo is no longer maintained. Consider using `npm init vite` and selecting the `svelte` option or — if you want a full-fledged app framework — use [SvelteKit](https://kit.svelte.dev), the official application framework for Svelte.
+# 📌 Filtro de Usos del Seguro - Svelte 🚗🛡️
+
+Este es un componente de **Svelte** que permite a los clientes filtrar y visualizar sus **usos de seguro** asociados a sus contratos.  
+El sistema obtiene los datos desde una API REST desarrollada en **Spring Boot** y forma parte de un proyecto más grande cuyo frontend principal está en **Vue.js**.
 
 ---
 
-# svelte app
+## 🚀 Funcionalidad  
 
-This is a project template for [Svelte](https://svelte.dev) apps. It lives at https://github.com/sveltejs/template.
+✅ Obtener **todos los usos** de seguro del cliente autenticado.  
+✅ **Filtrar usos** por fecha para obtener registros específicos.  
+✅ Mostrar los **usos en una tabla** con detalles relevantes.  
+✅ **Redirección a Vue** para mantener la integración del sistema.  
 
-To create a new project based on this template using [degit](https://github.com/Rich-Harris/degit):
+---
 
+## 📦 Instalación y Configuración
+
+### 🔹 1. Clonar el repositorio  
 ```bash
-npx degit sveltejs/template svelte-app
-cd svelte-app
+git clone https://github.com/tu-usuario/tu-repositorio-svelte.git
+cd tu-repositorio-svelte
 ```
 
-*Note that you will need to have [Node.js](https://nodejs.org) installed.*
-
-
-## Get started
-
-Install the dependencies...
-
+### 🔹 2. Instalar dependencias
 ```bash
-cd svelte-app
 npm install
 ```
 
-...then start [Rollup](https://rollupjs.org):
-
+### 🔹 3. Ejecutar el proyecto en modo desarrollo
 ```bash
 npm run dev
 ```
-
-Navigate to [localhost:8080](http://localhost:8080). You should see your app running. Edit a component file in `src`, save it, and reload the page to see your changes.
-
-By default, the server will only respond to requests from localhost. To allow connections from other computers, edit the `sirv` commands in package.json to include the option `--host 0.0.0.0`.
-
-If you're using [Visual Studio Code](https://code.visualstudio.com/) we recommend installing the official extension [Svelte for VS Code](https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode). If you are using other editors you may need to install a plugin in order to get syntax highlighting and intellisense.
-
-## Building and running in production mode
-
-To create an optimised version of the app:
-
+Por defecto, el proyecto se ejecutará en:
 ```bash
-npm run build
+http://localhost:50577
 ```
 
-You can run the newly built app with `npm run start`. This uses [sirv](https://github.com/lukeed/sirv), which is included in your package.json's `dependencies` so that the app will work when you deploy to platforms like [Heroku](https://heroku.com).
-
-
-## Single-page app mode
-
-By default, sirv will only respond to requests that match files in `public`. This is to maximise compatibility with static fileservers, allowing you to deploy your app anywhere.
-
-If you're building a single-page app (SPA) with multiple routes, sirv needs to be able to respond to requests for *any* path. You can make it so by editing the `"start"` command in package.json:
-
-```js
-"start": "sirv public --single"
-```
-
-## Using TypeScript
-
-This template comes with a script to set up a TypeScript development environment, you can run it immediately after cloning the template with:
-
+### 🔹 4. Configurar la API Backend
+Este proyecto consume datos desde un backend en Spring Boot. Asegúrate de que el servidor de la API está corriendo en:
 ```bash
-node scripts/setupTypeScript.js
+http://localhost:8080
 ```
+Si la URL de la API es diferente, puedes modificarla en el código fuente.
 
-Or remove the script via:
+---
 
+## 🛠️ Uso
+Este componente obtiene el idCliente desde la URL y lo utiliza para obtener los contratos y usos de seguro asociados.
+
+🔹 Datos obtenidos de la API
+El sistema obtiene los siguientes datos:
+
+Contratos del Cliente:
 ```bash
-rm scripts/setupTypeScript.js
+GET /contrato/filtrar/cliente?idcliente={idCliente}
 ```
-
-If you want to use `baseUrl` or `path` aliases within your `tsconfig`, you need to set up `@rollup/plugin-alias` to tell Rollup to resolve the aliases. For more info, see [this StackOverflow question](https://stackoverflow.com/questions/63427935/setup-tsconfig-path-in-svelte).
-
-## Deploying to the web
-
-### With [Vercel](https://vercel.com)
-
-Install `vercel` if you haven't already:
-
+Usos de Seguro:
 ```bash
-npm install -g vercel
+GET /uso/filtrar/contrato?idContrato={idContrato}
 ```
+🔹 Filtro de Fechas
+Los usuarios pueden filtrar los usos del seguro por un rango de fechas, y los resultados se mostrarán en una tabla.
 
-Then, from within your project folder:
-
+---
+## 📂 Estructura del Proyecto
 ```bash
-cd public
-vercel deploy --name my-project
+📦 src
+ ┣ 📂 components    # Componentes de Svelte
+ ┣ 📂 assets        # Estilos y recursos
+ ┣ 📜 App.svelte    # Componente principal
+ ┣ 📜 main.js       # Punto de entrada
+ ┗ 📜 package.json  # Dependencias del proyecto
 ```
 
-### With [surge](https://surge.sh/)
+---
+## 🏗️ Implementación Técnica
 
-Install `surge` if you haven't already:
+🔹 Integración con Vue.js
+El componente Svelte se integra con el frontend de Vue.js mediante la redirección con window.location.href y la transferencia del idCliente como parámetro de la URL.
 
-```bash
-npm install -g surge
-```
+🔹 Principios SOLID aplicados
+✅ SRP (Single Responsibility Principle): Cada módulo tiene una única responsabilidad (obtención de datos, filtrado, renderizado).
+✅ OCP (Open/Closed Principle): El código está abierto a extensiones sin modificar la lógica existente. 
 
-Then, from within your project folder:
+🔹 Patrones de Diseño
+✅ Factory Pattern: Se usa en el backend para la creación de planes de seguro. 
+✅ ingleton Pattern: Se usa en el backend para  instanciar el método de creación del Factory.
 
-```bash
-npm run build
-surge public my-project.surge.sh
-```
+---
+## 🚀 Despliegue
+Este módulo está deployado en Vercel y se integra con el frontend de Vue.
+
+Puedes acceder al despliegue en:
+
+Frontend Pirncipal en Vue.Js: https://buenas-practicas-core-frontend.vercel.app/login-cliente
+
+Componete en Svelte.Js: https://componente-en-svelte.vercel.app/
+
+---
+## 💬 Contacto
+### Carlos Larco: carlos.larco.escobar@udla.edu.ec
+### Fernando Camacho: fernando.camacho@udla.edu.ec
+
+
+
+
+
+
+
+
+
